@@ -7,6 +7,7 @@ import {
   refreshAccessToken,
   getCurrentUser
 } from '../controller/auth.controller.js';
+import { authMiddleware } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
@@ -90,10 +91,9 @@ router.post('/refresh-token', refreshTokenValidation, refreshAccessToken);
 
 /**
  * GET /auth/me
- * Get current authenticated user (requires auth middleware)
- * Note: Add authMiddleware to protect this route
+ * Get current authenticated user info (requires JWT authentication)
  */
-router.get('/me', getCurrentUser);
+router.get('/me', authMiddleware, getCurrentUser);
 
 // ============================================
 // EXPORT
